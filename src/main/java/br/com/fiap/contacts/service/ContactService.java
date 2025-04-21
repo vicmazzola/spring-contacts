@@ -104,4 +104,14 @@ public class ContactService {
         }
     }
 
+    public Contact findByName(String name) {
+        Optional<Contact> contactOptional = contactRepository.findByName(name);
+
+        if (contactOptional.isPresent()) {
+            return contactOptional.get();
+        } else {
+            throw new RuntimeException("Contact not found");
+        }
+    }
+
 }
