@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tb_contact")
+@Table(name = "tb_contacts")
 public class Contact {
 
     @Id
