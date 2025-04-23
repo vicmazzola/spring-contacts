@@ -17,7 +17,7 @@ public class Contact {
     @SequenceGenerator(
             name = "CONTACTS_SEQ",
             sequenceName = "CONTACTS_SEQ",
-            allocationSize = 50
+            allocationSize = 1
     )
     private Long id;
     private String name;

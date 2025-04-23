@@ -37,7 +37,7 @@ public class ContactController {
 
     @PutMapping("/contacts")
     @ResponseStatus(HttpStatus.OK)
-    public Contact update(Contact contact) {
+    public Contact update(@RequestBody Contact contact) {
         return service.update(contact);
     }
 
