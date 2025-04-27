@@ -1,6 +1,7 @@
 package br.com.fiap.contacts.controller;
 
 
+import br.com.fiap.contacts.dto.ContactExhibitionDto;
 import br.com.fiap.contacts.model.Contact;
 import br.com.fiap.contacts.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class ContactController {
 
     @PostMapping("/contacts")
     @ResponseStatus(HttpStatus.CREATED)
-    public Contact save(@RequestBody Contact contact) {
+    public ContactExhibitionDto save(@RequestBody Contact contact) {
         return service.save(contact);
     }
 
@@ -41,13 +42,19 @@ public class ContactController {
         return service.update(contact);
     }
 
-    @GetMapping("/contacts/{name}")
+    @GetMapping("/contacts/name/{name}")
     @ResponseStatus(HttpStatus.OK)
     public Contact findByName(@PathVariable String name) {
         return service.findByName(name);
     }
 
-    @GetMapping("/contacts/{from}/{to}")
+    @GetMapping("/contacts/id/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ContactExhibitionDto searchById(@PathVariable Long id) {
+        return service.searchById(id);
+    }
+
+    @GetMapping("/contacts/birthdays/{from}/{to}")
     @ResponseStatus(HttpStatus.OK)
     public List<Contact> findByBirthDateBetween(
             @PathVariable LocalDate from,

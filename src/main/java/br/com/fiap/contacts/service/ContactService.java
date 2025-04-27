@@ -1,5 +1,6 @@
 package br.com.fiap.contacts.service;
 
+import br.com.fiap.contacts.dto.ContactExhibitionDto;
 import br.com.fiap.contacts.model.Contact;
 import br.com.fiap.contacts.repository.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class ContactService {
      * @param contact the contact to save
      * @return the saved contact
      */
-    public Contact save(Contact contact) {
-        return contactRepository.save(contact);
+    public ContactExhibitionDto save(Contact contact) {
+        return new ContactExhibitionDto(contactRepository.save(contact));
     }
 
     /**
@@ -35,18 +36,17 @@ public class ContactService {
      * @return the contact if found
      * @throws RuntimeException if the contact is not found
      */
-    public Contact searchById(Long id) {
+    public ContactExhibitionDto searchById(Long id) {
 
         Optional<Contact> contactOptional = contactRepository.findById(id);
 
         if (contactOptional.isPresent()) {
-            return contactOptional.get();
+            return new ContactExhibitionDto(contactOptional.get());
         } else {
             throw new RuntimeException("Contact not found");
         }
-
-
     }
+
 
     /**
      * Returns a list of all contacts.
@@ -104,6 +104,13 @@ public class ContactService {
         }
     }
 
+    /**
+     * Finds a contact by their name.
+     *
+     * @param name the name of the contact
+     * @return the contact with the given name
+     * @throws RuntimeException if the contact is not found
+     */
     public Contact findByName(String name) {
         Optional<Contact> contactOptional = contactRepository.findByName(name);
 

@@ -22,9 +22,18 @@ public class Contact {
     private Long id;
     private String name;
     private String email;
+    private String password;
 
     @Column(name = "birth_date")
     private LocalDate birthDate;
+
+    public Contact(String password) {
+        this.password = password;
+    }
+
+    public Contact() {
+        
+    }
 
     public Long getId() {
         return id;
@@ -72,5 +81,9 @@ public class Contact {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, email, birthDate);
+    }
+
+    public String getPassword() {
+        return password;
     }
 }
