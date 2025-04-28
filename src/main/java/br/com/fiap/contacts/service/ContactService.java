@@ -1,8 +1,10 @@
 package br.com.fiap.contacts.service;
 
 import br.com.fiap.contacts.dto.ContactExhibitionDto;
+import br.com.fiap.contacts.dto.ContactRegisterDto;
 import br.com.fiap.contacts.model.Contact;
 import br.com.fiap.contacts.repository.ContactRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +24,12 @@ public class ContactService {
     /**
      * Saves a contact to the database.
      *
-     * @param contact the contact to save
+     * @param contactRegisterDto the contact to save
      * @return the saved contact
      */
-    public ContactExhibitionDto save(Contact contact) {
+    public ContactExhibitionDto save(ContactRegisterDto contactRegisterDto) {
+        Contact contact = new Contact();
+        BeanUtils.copyProperties(contactRegisterDto, contact);
         return new ContactExhibitionDto(contactRepository.save(contact));
     }
 

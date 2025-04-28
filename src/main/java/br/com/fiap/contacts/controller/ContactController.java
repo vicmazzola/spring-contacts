@@ -2,6 +2,7 @@ package br.com.fiap.contacts.controller;
 
 
 import br.com.fiap.contacts.dto.ContactExhibitionDto;
+import br.com.fiap.contacts.dto.ContactRegisterDto;
 import br.com.fiap.contacts.model.Contact;
 import br.com.fiap.contacts.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ public class ContactController {
 
     @PostMapping("/contacts")
     @ResponseStatus(HttpStatus.CREATED)
-    public ContactExhibitionDto save(@RequestBody Contact contact) {
-        return service.save(contact);
+    public ContactExhibitionDto save(@RequestBody ContactRegisterDto contactRegisterDto) {
+        return service.save(contactRegisterDto);
     }
 
     @GetMapping("/contacts")
