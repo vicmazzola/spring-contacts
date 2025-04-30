@@ -5,6 +5,7 @@ import br.com.fiap.contacts.dto.ContactExhibitionDto;
 import br.com.fiap.contacts.dto.ContactRegisterDto;
 import br.com.fiap.contacts.model.Contact;
 import br.com.fiap.contacts.service.ContactService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class ContactController {
 
     @PostMapping("/contacts")
     @ResponseStatus(HttpStatus.CREATED)
-    public ContactExhibitionDto save(@RequestBody ContactRegisterDto contactRegisterDto) {
+    public ContactExhibitionDto save(@RequestBody @Valid ContactRegisterDto contactRegisterDto) {
         return service.save(contactRegisterDto);
     }
 
