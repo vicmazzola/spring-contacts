@@ -2,7 +2,7 @@ package br.com.fiap.contacts.service;
 
 import br.com.fiap.contacts.dto.ContactExhibitionDto;
 import br.com.fiap.contacts.dto.ContactRegisterDto;
-import br.com.fiap.contacts.exception.UserNotFindException;
+import br.com.fiap.contacts.exception.UserNotFoundException;
 import br.com.fiap.contacts.model.Contact;
 import br.com.fiap.contacts.repository.ContactRepository;
 import org.springframework.beans.BeanUtils;
@@ -50,7 +50,7 @@ public class ContactService {
         if (contactOptional.isPresent()) {
             return new ContactExhibitionDto(contactOptional.get());
         } else {
-            throw new UserNotFindException("Contact not found");
+            throw new UserNotFoundException("Contact not found");
         }
     }
 
@@ -78,7 +78,7 @@ public class ContactService {
         if (contactOptional.isPresent()) {
             contactRepository.delete(contactOptional.get());
         } else {
-            throw new UserNotFindException("Contact not found");
+            throw new UserNotFoundException("Contact not found");
         }
     }
 
@@ -113,7 +113,7 @@ public class ContactService {
         if (contactOptional.isPresent()) {
             return contactRepository.save(contact);
         } else {
-            throw new UserNotFindException("Contact not found");
+            throw new UserNotFoundException("Contact not found");
         }
     }
 
@@ -130,7 +130,7 @@ public class ContactService {
         if (contactOptional.isPresent()) {
             return new ContactExhibitionDto(contactOptional.get());
         } else {
-            throw new UserNotFindException("Contact not found");
+            throw new UserNotFoundException("Contact not found");
         }
     }
 
@@ -139,7 +139,7 @@ public class ContactService {
      *
      * @param email the email address of the contact to search for
      * @return the contact with the specified email wrapped in ContactExhibitionDto
-     * @throws UserNotFindException if no contact with the given email is found
+     * @throws UserNotFoundException if no contact with the given email is found
      */
     public ContactExhibitionDto findByEmail(String email) {
         Optional<Contact> contactOptional = contactRepository.findByEmail(email);
@@ -147,7 +147,7 @@ public class ContactService {
         if (contactOptional.isPresent()) {
             return new ContactExhibitionDto(contactOptional.get());
         } else {
-            throw new UserNotFindException("Contact not found");
+            throw new UserNotFoundException("Contact not found");
         }
 
     }
