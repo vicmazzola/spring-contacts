@@ -80,13 +80,18 @@ public class ContactService {
     /**
      * Returns a list of contacts whose birthdays fall between the given dates.
      *
-     * @param from the start date of the range
-     * @param to   the end date of the range
+     * @param initialDate the start date of the range
+     * @param finalDate   the end date of the range
      * @return list of contacts with birthdays in the given range
      */
-    public List<Contact> getBirthdayCelebrants(LocalDate from, LocalDate to) {
+    public List<ContactExhibitionDto> getBirthdayCelebrants(LocalDate initialDate, LocalDate finalDate) {
 
-        return contactRepository.findByBirthDateBetween(from, to);
+        return contactRepository
+                .findByBirthDateBetween(initialDate, finalDate)
+                .stream()
+                .map(ContactExhibitionDto::new)
+                .toList();
+
 
     }
 
@@ -115,11 +120,11 @@ public class ContactService {
      * @return the contact with the given name
      * @throws RuntimeException if the contact is not found
      */
-    public Contact findByName(String name) {
+    public ContactExhibitionDto findByName(String name) {
         Optional<Contact> contactOptional = contactRepository.findByName(name);
 
         if (contactOptional.isPresent()) {
-            return contactOptional.get();
+            return new ContactExhibitionDto(contactOptional.get());
         } else {
             throw new RuntimeException("Contact not found");
         }

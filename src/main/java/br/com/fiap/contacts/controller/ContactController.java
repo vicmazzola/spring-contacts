@@ -46,9 +46,17 @@ public class ContactController {
 
     @GetMapping("/contacts/name/{name}")
     @ResponseStatus(HttpStatus.OK)
-    public Contact findByName(@PathVariable String name) {
+    public ContactExhibitionDto findByName(@PathVariable String name) {
         return service.findByName(name);
     }
+
+    //api/contacts?name=Victor
+    @GetMapping(value = "/contacts", params = "name")
+    @ResponseStatus(HttpStatus.OK)
+    public ContactExhibitionDto findByNameStringQuery(@RequestParam String name) {
+        return service.findByName(name);
+    }
+
 
     @GetMapping("/contacts/id/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -56,13 +64,24 @@ public class ContactController {
         return service.searchById(id);
     }
 
-    @GetMapping("/contacts/birthdays/{from}/{to}")
+    @GetMapping("/contacts/birthdays/{initialDate}/{finalDate}")
     @ResponseStatus(HttpStatus.OK)
-    public List<Contact> findByBirthDateBetween(
-            @PathVariable LocalDate from,
-            @PathVariable LocalDate to
+    public List<ContactExhibitionDto> findByBirthDateBetween(
+            @PathVariable LocalDate initialDate,
+            @PathVariable LocalDate finalDate
     ) {
-        return service.getBirthdayCelebrants(from, to);
+        return service.getBirthdayCelebrants(initialDate, finalDate);
     }
+
+    //api/contacts?initialDate=1997-10-10&finalDate=1998-10-10
+    @GetMapping(value = "/contacts", params = {"initialDate", "finalDate"})
+    @ResponseStatus(HttpStatus.OK)
+    public List<ContactExhibitionDto> findByBirthDateStringQuery(
+            @RequestParam LocalDate initialDate,
+            @RequestParam LocalDate finalDate
+    ) {
+        return service.getBirthdayCelebrants(initialDate, finalDate);
+    }
+
 
 }
