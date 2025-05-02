@@ -16,6 +16,8 @@ public interface ContactRepository extends JpaRepository<Contact, Long> {
     @Query("SELECT c FROM Contact c WHERE c.name = :name")
     Optional<Contact> findByName(@Param("name") String name);
 
+    Optional<Contact> findByEmail(String email);
+
     @Query("SELECT c FROM Contact c WHERE c.birthDate BETWEEN :initialDate AND :finalDate")
     List<Contact> findByBirthDateBetween(
             @Param("initialDate") LocalDate initialDate,

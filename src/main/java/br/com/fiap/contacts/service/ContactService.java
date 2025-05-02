@@ -73,7 +73,7 @@ public class ContactService {
         if (contactOptional.isPresent()) {
             contactRepository.delete(contactOptional.get());
         } else {
-            throw new RuntimeException("Contact not found");
+            throw new UserNotFindException("Contact not found");
         }
     }
 
@@ -95,7 +95,6 @@ public class ContactService {
 
     }
 
-
     /**
      * Updates an existing contact in the database.
      *
@@ -109,7 +108,7 @@ public class ContactService {
         if (contactOptional.isPresent()) {
             return contactRepository.save(contact);
         } else {
-            throw new RuntimeException("Contact not found");
+            throw new UserNotFindException("Contact not found");
         }
     }
 
@@ -126,8 +125,26 @@ public class ContactService {
         if (contactOptional.isPresent()) {
             return new ContactExhibitionDto(contactOptional.get());
         } else {
-            throw new RuntimeException("Contact not found");
+            throw new UserNotFindException("Contact not found");
         }
+    }
+
+    /**
+     * Searches for a contact by email.
+     *
+     * @param email the email address of the contact to search for
+     * @return the contact with the specified email wrapped in ContactExhibitionDto
+     * @throws UserNotFindException if no contact with the given email is found
+     */
+    public ContactExhibitionDto findByEmail(String email) {
+        Optional<Contact> contactOptional = contactRepository.findByEmail(email);
+
+        if (contactOptional.isPresent()) {
+            return new ContactExhibitionDto(contactOptional.get());
+        } else {
+            throw new UserNotFindException("Contact not found");
+        }
+
     }
 
 }

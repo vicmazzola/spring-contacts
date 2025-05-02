@@ -83,5 +83,12 @@ public class ContactController {
         return service.getBirthdayCelebrants(initialDate, finalDate);
     }
 
+    //api/contacts?email=victor@email.com
+    @GetMapping(value = "/contacts", params = "email")
+    @ResponseStatus(HttpStatus.OK)
+    public ContactExhibitionDto findByEmail(@RequestParam String email) {
+        return service.findByEmail(email);
+    }
+
 
 }
