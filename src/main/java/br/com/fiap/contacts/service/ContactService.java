@@ -7,6 +7,8 @@ import br.com.fiap.contacts.model.Contact;
 import br.com.fiap.contacts.repository.ContactRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -53,12 +55,15 @@ public class ContactService {
     }
 
     /**
-     * Returns a list of all contacts.
+     * Returns a paginated list of all contacts.
      *
-     * @return list of contacts
+     * @param pageable pagination information
+     * @return a page of contacts converted to ContactExhibitionDto
      */
-    public List<Contact> listAllContacts() {
-        return contactRepository.findAll();
+    public Page<ContactExhibitionDto> listAllContacts(Pageable pageable) {
+        return contactRepository
+                .findAll(pageable)
+                .map(ContactExhibitionDto::new);
     }
 
     /**

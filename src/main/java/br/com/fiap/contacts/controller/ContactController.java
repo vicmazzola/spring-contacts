@@ -7,6 +7,8 @@ import br.com.fiap.contacts.model.Contact;
 import br.com.fiap.contacts.service.ContactService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +30,8 @@ public class ContactController {
 
     @GetMapping("/contacts")
     @ResponseStatus(HttpStatus.OK)
-    public List<Contact> listAllContacts() {
-        return service.listAllContacts();
+    public Page<ContactExhibitionDto> listAllContacts(Pageable pageable) {
+        return service.listAllContacts(pageable);
     }
 
     @DeleteMapping("/contacts/{id}")
