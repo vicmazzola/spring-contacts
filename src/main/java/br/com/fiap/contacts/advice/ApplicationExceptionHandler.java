@@ -1,5 +1,6 @@
 package br.com.fiap.contacts.advice;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,6 +26,14 @@ public class ApplicationExceptionHandler {
         }
 
         return errorsMap;
+    }
+
+    @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public Map<String, String> handleDataIntegrity() {
+        Map<String, String> errorMap = new HashMap<>();
+        errorMap.put("error", "User already registered!");
+        return errorMap;
     }
 
 
