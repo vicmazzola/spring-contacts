@@ -1,8 +1,10 @@
 package br.com.fiap.contacts.dto;
 
+import br.com.fiap.contacts.model.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import org.aspectj.weaver.ast.Not;
 
 
 /**
@@ -31,6 +33,8 @@ public record UserRegisterDto(
 
         @NotBlank(message = "Password is required.")
         @Size(min = 6, max = 20, message = "Password must be between 6 and 20 characters.")
-        String password
+        String password,
+
+        UserRole role
 ) {
 }

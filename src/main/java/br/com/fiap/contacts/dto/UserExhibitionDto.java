@@ -1,6 +1,7 @@
 package br.com.fiap.contacts.dto;
 
 import br.com.fiap.contacts.model.User;
+import br.com.fiap.contacts.model.UserRole;
 
 /**
  * DTO for exposing user information.
@@ -19,7 +20,8 @@ import br.com.fiap.contacts.model.User;
 public record UserExhibitionDto(
         Long userId,
         String name,
-        String email
+        String email,
+        UserRole role
 
 ) {
 
@@ -32,7 +34,8 @@ public record UserExhibitionDto(
         this(
                 user.getUserId(),
                 user.getName(),
-                user.getEmail()
+                user.getEmail(),
+                user.getRole()
         );
     }
 

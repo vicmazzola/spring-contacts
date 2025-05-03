@@ -7,6 +7,7 @@ import br.com.fiap.contacts.model.User;
 import br.com.fiap.contacts.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,12 +25,18 @@ public class UserService {
     /**
      * Saves a user to the database.
      *
-     * @param userRegisterDto the user to save
+     * @param userDto the user to save
      * @return the saved user as UserExhibitionDto
      */
-    public UserExhibitionDto save(UserRegisterDto userRegisterDto) {
+    public UserExhibitionDto save(UserRegisterDto userDto) {
+
+        String passwordCrypto = new BCryptPasswordEncoder().encode(userDto.password());
+
         User user = new User();
-        BeanUtils.copyProperties(userRegisterDto, user);
+        BeanUtils.copyProperties(userDto, user);
+        user.setPassword(passwordCrypto);
+
+        User userRegistered = userRepository.save(user);
         return new UserExhibitionDto(userRepository.save(user));
     }
 
