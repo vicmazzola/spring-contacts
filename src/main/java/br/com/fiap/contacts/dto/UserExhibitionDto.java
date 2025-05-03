@@ -1,5 +1,7 @@
 package br.com.fiap.contacts.dto;
 
+import br.com.fiap.contacts.model.User;
+
 /**
  * DTO for exposing user information.
  *
@@ -20,4 +22,19 @@ public record UserExhibitionDto(
         String email
 
 ) {
+
+    /**
+     * Constructs a UserExhibitionDto from a User entity.
+     *
+     * @param user the User entity
+     */
+    public UserExhibitionDto(User user) {
+        this(
+                user.getUserId(),
+                user.getName(),
+                user.getEmail()
+        );
+    }
+
+
 }
