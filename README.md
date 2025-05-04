@@ -13,6 +13,7 @@ Created using [Spring Initializr](https://start.spring.io/).
 - Spring Web (Spring MVC)
 - Spring Data JPA
 - Spring Validation
+- Spring Security
 - Flyway (DB migrations)
 - Oracle Database (JDBC)
 - Maven
@@ -20,24 +21,25 @@ Created using [Spring Initializr](https://start.spring.io/).
 ## 📝 Description
 
 Simple API to manage contacts with full CRUD support.  
-Includes birthday filtering and will evolve as the course progresses.
+Includes birthday filtering, user authentication (JWT), and will evolve as the course progresses.
 
 ## 📝 Features
 
-- ✅ CRUD for Contacts
+- ✅ CRUD operations for contacts
 - ✅ Search by name or birthday range
-- 🔄 Data validation
-- 🔧 DB versioning with Flyway
-- 📦 Oracle DB support
+- 🔄 Input validation
+- 🔧 Database versioning with Flyway
+- 📦 Oracle DB integration
+- 🔐 Authentication and authorization (Spring Security + JWT)
+
+
 
 ## 📦 How to Run
 
 ```bash
 ./mvnw spring-boot:run
-
 ```
 
 ## 📌 Notes
-Flyway auto-applies migrations from /resources/db/migration
-
-Uses Oracle DB (configure in application.properties)
+- Flyway automatically applies migrations from `/resources/db/migration`.
+- Database connection details must be configured in `application.properties`.

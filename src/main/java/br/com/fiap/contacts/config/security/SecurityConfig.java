@@ -1,6 +1,7 @@
 package br.com.fiap.contacts.config.security;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -12,23 +13,28 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * Configuration class for Spring Security.
  *
- * <p>Defines security settings including stateless session management,
- * CSRF disabling, and HTTP request authorization rules.</p>
+ * <p>Configures Spring Security settings such as stateless session management, HTTP authorization rules, and registers a JWT token validation filter.</p>
  */
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired
+    private ValidateToken validateToken;
 
     /**
      * Configures the security filter chain for the application.
      *
      * <p>Disables CSRF protection, sets the session management to stateless,
-     * and defines authorization rules:
+     * adds a JWT token validation filter, and defines authorization rules:
      * <ul>
+     *     <li>Allows all POST requests to /auth/register and /auth/login without authentication.</li>
      *     <li>Allows all GET requests to /api/contacts without authentication.</li>
      *     <li>Restricts POST requests to /api/contacts to users with ADMIN role.</li>
      *     <li>Requires authentication for all other requests.</li>
@@ -39,6 +45,7 @@ public class SecurityConfig {
      * @return the configured {@link SecurityFilterChain}
      * @throws Exception if a security configuration error occurs
      */
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity.csrf(csrf -> csrf.disable())
@@ -50,6 +57,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/contacts").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/contacts").hasRole("ADMIN")
                         .anyRequest().authenticated()
+                )
+                .addFilterBefore(
+                        validateToken,
+                        UsernamePasswordAuthenticationFilter.class
                 )
                 .build();
     }
@@ -70,8 +81,13 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
+    /**
+     * Exposes the {@link PasswordEncoder} bean to encode and verify passwords.
+     *
+     * @return a {@link PasswordEncoder} using BCrypt hashing algorithm
+     */
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
