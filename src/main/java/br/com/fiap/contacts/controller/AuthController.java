@@ -1,8 +1,11 @@
 package br.com.fiap.contacts.controller;
 
+import br.com.fiap.contacts.config.security.TokenService;
 import br.com.fiap.contacts.dto.LoginDto;
+import br.com.fiap.contacts.dto.TokenDto;
 import br.com.fiap.contacts.dto.UserExhibitionDto;
 import br.com.fiap.contacts.dto.UserRegisterDto;
+import br.com.fiap.contacts.model.User;
 import br.com.fiap.contacts.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,9 @@ public class AuthController {
     @Autowired
     private UserService service;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid LoginDto loginDto) {
         UsernamePasswordAuthenticationToken usernamePassword =
@@ -33,7 +39,9 @@ public class AuthController {
 
         Authentication auth = authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        String token = tokenService.generateToken((User) auth.getPrincipal());
+
+        return ResponseEntity.ok(new TokenDto(token));
     }
 
     @PostMapping("/register")

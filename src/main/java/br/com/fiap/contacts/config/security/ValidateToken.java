@@ -59,7 +59,8 @@ public class ValidateToken extends OncePerRequestFilter {
         String authorizationHeader = request.getHeader("Authorization");
         String token = "";
 
-        if (authorizationHeader == null) {
+        if (authorizationHeader == null || authorizationHeader.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             token = null;
         } else {
             token = authorizationHeader.replace("Bearer", "").trim();
